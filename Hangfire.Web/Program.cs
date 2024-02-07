@@ -1,8 +1,10 @@
 using Hangfire;
+using Hangfire.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IEmailSender,EmailSender>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHangfire(config =>
 {
