@@ -35,5 +35,29 @@ namespace Hangfire.Web.Controllers
             FireAndForgetJobs.EmailSendToUserJob();
             return View();
         }
+        public async Task<IActionResult> PictureSave()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> PictureSave(IFormFile picture,string text)
+        {
+            string newFileName = string.Empty;
+            if(picture!=null && picture.Length>0)
+            {
+                newFileName = Guid.NewGuid().ToString()+Path.GetExtension(picture.FileName);
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imgs", newFileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await picture.CopyToAsync(stream);
+                }
+            }
+
+            string jobId = BackgroundJobs.DelayedJobs.AddMarkJob(newFileName,text);
+
+            return View();
+        }
     }
 }
