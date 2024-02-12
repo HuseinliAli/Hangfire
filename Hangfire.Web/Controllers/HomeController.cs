@@ -37,6 +37,7 @@ namespace Hangfire.Web.Controllers
         }
         public async Task<IActionResult> PictureSave()
         {
+            BackgroundJobs.RecurringJobs.ReportingJob();
             return View();
         }
         [HttpPost]
