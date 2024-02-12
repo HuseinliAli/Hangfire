@@ -57,7 +57,7 @@ namespace Hangfire.Web.Controllers
             }
 
             string jobId = BackgroundJobs.DelayedJobs.AddMarkJob(newFileName,text);
-
+            ContinuationJobs.WriteMarkStatus(jobId, newFileName);
             return View();
         }
     }
